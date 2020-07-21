@@ -2,6 +2,8 @@ from PIL import Image
 import numpy as np
 import glob
 import re
+import time
+import sys
 
 images = glob.glob("CT/*.png")
 
@@ -18,6 +20,13 @@ m = np.asarray(Image.open(images[0])).shape[1]
 for i in range(len(images)):
     m = max(m, np.asarray(Image.open(images[i])).shape[1])
 p = np.zeros((len(images), m, 3))
+
+toolbar_width = int(len(images)/5)
+
+# setup toolbar
+sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
+sys.stdout.flush()
+sys.stdout.write("\b" * (toolbar_width+1)) # return to start of line, after '['
 
 # Loop through CT slices from front to back
 for z in range(len(images)):
@@ -45,6 +54,12 @@ for z in range(len(images)):
                     new[i] = pixels[y][x][i] + sum[i]
                 sum = new
             p[z][x] = sum
+    if z % 5 == 0:
+        # update the bar
+        sys.stdout.write("-")
+        sys.stdout.flush()
+
+sys.stdout.write("]\n")
             
 # Save and display image
 array = np.array(p, dtype=np.uint8)
