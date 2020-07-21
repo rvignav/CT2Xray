@@ -1,4 +1,5 @@
 from PIL import Image
+from PIL import ImageEnhance
 import numpy as np
 import glob
 import re
@@ -41,7 +42,7 @@ for z in range(len(images)):
                 sum += pixels[y][x]
             # Assign sum to the point (x, z) on the coronal image - p[z][x] in the pixel array, 
             # since z represents height (rows) and x represents length (columns)
-            p[z][x] = sum / pixels.shape[0]
+            p[len(images) - 1 - z][pixels.shape[1] - 1 - x] = sum / pixels.shape[0]
     else:
         # Remove alpha channel
         if pixels.shape[2] == 4:
@@ -53,7 +54,7 @@ for z in range(len(images)):
                 for i in range(pixels.shape[2]):
                     new[i] = pixels[y][x][i] + sum[i]
                 sum = new
-            p[z][x] = sum
+            p[len(images) - 1 - z][pixels.shape[1] - 1 - x] = sum / pixels.shape[0]
     if z % 5 == 0:
         # update the bar
         sys.stdout.write("-")
@@ -64,6 +65,8 @@ sys.stdout.write("]\n")
 # Save and display image
 array = np.array(p, dtype=np.uint8)
 xray = Image.fromarray(array)
-xray.save('xray.png')
+enhancer = ImageEnhance.Brightness(xray)
+im = enhancer.enhance(3.0)
+im.save('xray.png')
 print('Xray saved to \'xray.png\'')
-xray.show()
+im.show()
