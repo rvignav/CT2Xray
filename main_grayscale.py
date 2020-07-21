@@ -39,7 +39,7 @@ for z in range(len(images)):
             sum += pixels[y][x]
         # Assign sum to the point (x, z) on the coronal image - p[z][x] in the pixel array, 
         # since z represents height (rows) and x represents length (columns)
-        p[len(images) - 1 - z][x] = sum / HEIGHT
+        p[len(images) - 1 - z][x] = sum
     if z % 5 == 0:
         # update the bar
         sys.stdout.write("-")
