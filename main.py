@@ -53,7 +53,6 @@ for z in range(len(images)):
         # update the bar
         sys.stdout.write("-")
         sys.stdout.flush()
-    debug = False
 sys.stdout.write("]\n")
             
 # Save and display image
