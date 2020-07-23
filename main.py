@@ -26,7 +26,7 @@ images = sort_list(images)
 p = np.zeros((len(images), Image.open(images[0]).convert('L').size[0]))
 
 # setup toolbar
-toolbar_width = int(len(images)/5)
+toolbar_width = int(len(images)/5 + 1)
 sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
 sys.stdout.flush()
 sys.stdout.write("\b" * (toolbar_width+1)) # return to start of line, after '['
@@ -38,7 +38,7 @@ for z in range(len(images)):
     data = list(img.getdata()) # convert image data to a list of integers
     # convert that to 2D list (list of lists of integers)
     pixels = [data[offset:offset+WIDTH] for offset in range(0, WIDTH*HEIGHT, WIDTH)]
-   
+
     # Loop from left to right on the CT slice
     for x in range(WIDTH):
         # Sum y values in the current x column
@@ -56,11 +56,9 @@ for z in range(len(images)):
 sys.stdout.write("]\n")
             
 # Save and display image
-maxval = np.amax(p)
-for r in range(p.shape[0]):
-    for c in range(p.shape[1]):
-        p[r][c] = p[r][c] * 255 / maxval
+p = p / np.max(p) * 255.0
 array = np.array(p, dtype=np.uint8)
+
 xray = Image.fromarray(array, 'L')
 
 size = 300
