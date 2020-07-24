@@ -22,7 +22,7 @@ def create_image(dirname, dirname2, label, normalize):
         dirname = dirname[:-1]
     images = glob.glob(str(dirname) + "/*.png")
 
-    if "/" in dirname2:
+    if dirname2[-1] == "/":
         dirname2 = dirname2[:-1]
     images2 = glob.glob(str(dirname2) + "/*.png")
 

@@ -9,6 +9,6 @@ To test the CT to Xray algorithm, run the following:
 
 To run the algorithm on the provided sample volumes, a possible command is
 
-    python main_mask.py CT CT_Lung_Mask
+    python main_mask.py volumes/CT masks/CT_Lung_Mask
 
 Note: If `import glob` still raises an error after running the script above, run `npm install glob`.
