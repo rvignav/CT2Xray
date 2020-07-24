@@ -4,7 +4,7 @@ To test the CT to Xray algorithm, run the following:
 
     git clone https://github.com/rvignav/CT2Xray.git
     cd CT2Xray
-    pip install Pillow numpy glob2 regex os-sys argparse
+    pip install Pillow numpy glob2 regex os-sys argparse matplotlib
     python <main.py OR main_mask.py> path/to/CT/volume path/to/mask/volume
 
 To run the algorithm on the provided sample volumes, a possible command is

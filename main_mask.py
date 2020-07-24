@@ -1,4 +1,5 @@
 from PIL import Image
+import matplotlib.pyplot as plt
 import numpy as np
 import glob
 import re
@@ -17,7 +18,7 @@ def sort_list(l):
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
     return sorted(l, key = alphanum_key)
 
-def create_image(dirname, dirname2, label, normalize):
+def create_image(dirname, dirname2, label):
     if dirname[-1] == "/":
         dirname = dirname[:-1]
     images = glob.glob(str(dirname) + "/*.png")
@@ -36,7 +37,7 @@ def create_image(dirname, dirname2, label, normalize):
     toolbar_width = int(len(images)/5 + 1)
     sys.stdout.write(label + " [%s]" % (" " * toolbar_width))
     sys.stdout.flush()
-    sys.stdout.write("\b" * (toolbar_width+1)) # return to start of line, after '['
+    sys.stdout.write("\b" * (toolbar_width+1))
 
     # Loop through CT slices from front to back
     for z in range(len(images)):
@@ -46,15 +47,14 @@ def create_image(dirname, dirname2, label, normalize):
         # convert that to 2D list (list of lists of integers)
         pixels = [data[offset:offset+WIDTH] for offset in range(0, WIDTH*HEIGHT, WIDTH)]
 
-        img2 = Image.open(images2[z]).convert('L')  # convert image to 8-bit grayscale
-        data2 = list(img2.getdata()) # convert image data to a list of integers
-        # convert that to 2D list (list of lists of integers)
+        img2 = Image.open(images2[z]).convert('L') 
+        data2 = list(img2.getdata()) 
         pixels2 = [data2[offset:offset+WIDTH] for offset in range(0, WIDTH*HEIGHT, WIDTH)]
 
         for r in range(HEIGHT):
             for c in range(WIDTH):
                 if pixels2[r][c] != 0:
-                    pixels[r][c] = pixels2[r][c] #255
+                    pixels[r][c] = pixels2[r][c]
 
         # Loop from left to right on the CT slice
         for x in range(WIDTH):
@@ -72,21 +72,24 @@ def create_image(dirname, dirname2, label, normalize):
             sys.stdout.flush()
     sys.stdout.write("]\n")
 
-    if normalize:
-        p = p / np.max(p) * 255.0
-    array = np.array(p, dtype=np.uint8)
-
-    final_img = Image.fromarray(array, 'L')
-
-    size = 300
-    if final_img.size[1] < 300:
-        final_img = final_img.resize((final_img.size[0], 300))    
-
-    return final_img  
+    plt.imshow(p, cmap='gray')
+    plt.gca().set_axis_off()
+    plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, 
+                hspace = 0, wspace = 0)
+    plt.margins(0,0)
+    plt.gca().xaxis.set_major_locator(plt.NullLocator())
+    plt.gca().yaxis.set_major_locator(plt.NullLocator())
+    plt.savefig('xray.png', bbox_inches = 'tight',
+        pad_inches = 0)
 
 # Save and display image
-xray = create_image(args.CT_dir, args.mask_dir, "Creating X-ray:", True)
-xray.save('xray.png')
+create_image(args.CT_dir, args.mask_dir, "Creating X-ray:")
 
+final_img = Image.open('xray.png')
+size = 300
+if final_img.size[1] < 300:
+    final_img = final_img.resize((final_img.size[0], 300))    
+
+final_img.save('xray.png')
 print('Xray saved to \'xray.png\'')
-xray.show()
+final_img.show()

@@ -1,4 +1,5 @@
 from PIL import Image
+import matplotlib.pyplot as plt
 import numpy as np
 import glob
 import re
@@ -17,7 +18,7 @@ def sort_list(l):
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
     return sorted(l, key = alphanum_key)
 
-def create_image(dirname, label, normalize):
+def create_image(dirname, label):
     if dirname[-1] == "/":
         dirname = dirname[:-1]
     images = glob.glob(str(dirname) + "/*.png")
@@ -57,31 +58,32 @@ def create_image(dirname, label, normalize):
             sys.stdout.flush()
     sys.stdout.write("]\n")
 
-    if normalize:
-        p = p / np.max(p) * 255.0
-    
     return p
 
-def make_image(p):
-    array = np.array(p, dtype=np.uint8)
-    final_img = Image.fromarray(array, 'L')
-
-    size = 300
-    if final_img.size[1] < 300:
-        final_img = final_img.resize((final_img.size[0], 300))    
-
-    return final_img  
-
 # Save and display image
-xray = create_image(args.CT_dir, "Creating X-ray:", True)
-mask = create_image(args.mask_dir, "Creating mask: ", True) #False
+xray = create_image(args.CT_dir, "Creating X-ray:")
+mask = create_image(args.mask_dir, "Creating mask: ")
 
 for r in range(xray.shape[0]):
     for c in range(xray.shape[1]):
         if mask[r][c] != 0:
             xray[r][c] = mask[r][c]
 
-ret = make_image(xray)
-ret.save('xray.png')
+plt.imshow(xray, cmap='gray')
+plt.gca().set_axis_off()
+plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, 
+            hspace = 0, wspace = 0)
+plt.margins(0,0)
+plt.gca().xaxis.set_major_locator(plt.NullLocator())
+plt.gca().yaxis.set_major_locator(plt.NullLocator())
+plt.savefig('xray.png', bbox_inches = 'tight',
+    pad_inches = 0)
+
+final_img = Image.open('xray.png')
+size = 300
+if final_img.size[1] < 300:
+    final_img = final_img.resize((final_img.size[0], 300))    
+
+final_img.save('xray.png')
 print('Xray saved to \'xray.png\'')
-ret.show()
+final_img.show()
