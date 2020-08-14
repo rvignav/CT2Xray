@@ -130,7 +130,7 @@ def dice(imidx):
     arr = flood()
     return arr
 
-fnames = ['val1.txt', 'val2.txt']
+fnames = ['val0.txt', 'val1.txt']
 vals = [31, 32]
 for i in range(2):
     f = open(fnames[i], 'w')
