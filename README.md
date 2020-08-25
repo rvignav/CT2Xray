@@ -1,6 +1,10 @@
 # CT2Xray
 
-To test the CT to Xray algorithm, run the following:
+Automatic conversion from CT and mask volumes of axial slices to an annotated coronal X-ray. Segments COVID-19 lung lesions on those X-rays via a custom Mask-RCNN.
+
+To perform chest X-ray COVID-19 lung lesion segmentation, open and run [`Segment.ipynb`](https://github.com/rvignav/CT2Xray/blob/master/Segment.ipynb).
+
+To test the CT to X-ray algorithm, run the following:
 
     git clone https://github.com/rvignav/CT2Xray.git
     cd CT2Xray
