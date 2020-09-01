@@ -24,9 +24,9 @@ def bubble_sort(series):
                 swapped = True
     return series
 
-for i in range(len(images)):
+for i in range(38, len(images)):
     series = images[i]
-    dest_dir = '/Users/vignavramesh/Documents/scans/Volume' + str(i + 42) + '/'
+    dest_dir = '/Users/vignavramesh/Inf-Net/Dataset/Volume' + str(i + 42) + '/'
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
     dcms = glob.glob(series + '/*.dcm')
