@@ -5,6 +5,7 @@ import os
 import cv2
 
 images = []
+
 folders = glob.glob('/Users/vignavramesh/Downloads/COVID-19-AR/*')
 for f in folders:
     studies = glob.glob(f + '/*')
