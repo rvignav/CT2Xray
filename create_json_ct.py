@@ -79,8 +79,8 @@ def show(index):
     
     return ans
 
-mask_list = glob.glob('/Users/vignavramesh/Downloads/mask-slices/*.png')
-scan_list = glob.glob('/Users/vignavramesh/Downloads/images2/train/*.png')
+mask_list = sort_list(glob.glob('/Users/vignavramesh/Downloads/mask-slices/*.png'))
+scan_list = sort_list(glob.glob('/Users/vignavramesh/Downloads/images2/train/*.png'))
 
 for i in range(len(mask_list)):
     mask_name = mask_list[i]
