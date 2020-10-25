@@ -1,1 +1,1 @@
-Download the weights [here](https://drive.google.com/drive/folders/1UcFp7IznSjgUDvMfY6T24xX7y9T9wuIZ?usp=sharing). Rename the chosen H5 file to `mask_rcnn_lesion_00xx.h5` where `xx` denotes the number of epochs. Afterwards, place the file in a folder named `lesion` in the same directory as the `images` and `data` folders.
+Download the weights [here](https://drive.google.com/drive/folders/1UcFp7IznSjgUDvMfY6T24xX7y9T9wuIZ?usp=sharing). Place the H5 file in a folder named `lesion` in the same directory as the `images` folder.
