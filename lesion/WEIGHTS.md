@@ -1,1 +1,1 @@
-Download the weights [here](https://drive.google.com/drive/folders/14oj-Wam4Lq32_78TzMu4QhLID38Xi1aH?usp=sharing).
+Download the weights [here](https://drive.google.com/drive/folders/1UcFp7IznSjgUDvMfY6T24xX7y9T9wuIZ?usp=sharing). Place the appropriate H5 file in a folder named 'lesion' in the same directory as the 'images' and 'data' folders.
