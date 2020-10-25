@@ -1,4 +1,6 @@
 '''
+Accessed at https://gist.github.com/AndreLester/589ea1eddd3a28d00f3d7e47bd9f28fb.
+
 Copyright (C) 2018  Andre Lester Kruger
 
 ConcaveHull.py is free software: you can redistribute it and/or modify
