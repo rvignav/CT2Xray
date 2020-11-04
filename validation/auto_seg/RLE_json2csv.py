@@ -1,3 +1,7 @@
+'''
+https://github.com/GeneralBlockchain/covid-19-chest-xray-segmentations-dataset#download-the-dataset
+'''
+
 import csv
 import json
 from PIL import Image

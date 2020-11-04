@@ -1,3 +1,7 @@
+'''
+https://www.kaggle.com/dmitrykonovalov/convert-run-length-encoding-to-png-mask-images?select=train_ship_segmentations_v2.csv
+'''
+
 import numpy as np 
 import pandas as pd 
 import os
