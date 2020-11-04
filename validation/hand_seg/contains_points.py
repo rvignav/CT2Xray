@@ -24,6 +24,7 @@ def render(xs, ys):
     return grid
 
 for q in range(len(all_x)):
+    arr = []
     p = None
     for idx in range(len(all_x[q])):
         xs = all_x[q][idx]
@@ -36,10 +37,15 @@ for q in range(len(all_x)):
         except:
             p = p
         
+        m = []
+
         for r in range(mask.shape[0]):
             for c in range(mask.shape[1]):
                 if (mask[r][c]):
                     p[r][c] = 255
+                    m.append((r,c))
+        
+        arr.append(m)
 
     plt.imshow(p, cmap='gray')
     plt.gca().set_axis_off()
@@ -48,3 +54,6 @@ for q in range(len(all_x)):
     plt.gca().xaxis.set_major_locator(plt.NullLocator())
     plt.gca().yaxis.set_major_locator(plt.NullLocator())
     plt.savefig('via_masks/mask' + str(q) + '.png', bbox_inches = 'tight', pad_inches = 0)
+
+    f = open('val' + str(q) + '.txt', 'w')
+    f.write(str(arr))
