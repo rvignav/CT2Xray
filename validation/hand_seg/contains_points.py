@@ -14,13 +14,13 @@ all_x = [all_x_1, all_x_2]
 all_y = [all_y_1, all_y_2]
 
 def render(xs, ys):
-    X = 300
-    Y = 432
+    X = int(300 * 1024/432)
+    Y = int(432 * 1024/432)
     newPoly = [(ys[i], xs[i]) for i in range(len(xs))]  
 
     grid = np.zeros((X, Y), dtype=np.int8)
     mahotas.polygon.fill_polygon(newPoly, grid)
-    # print(grid[147][142])
+
     return grid
 
 for q in range(len(all_x)):
@@ -29,11 +29,15 @@ for q in range(len(all_x)):
     for idx in range(len(all_x[q])):
         xs = all_x[q][idx]
         ys = all_y[q][idx]
+        for i in range(len(xs)):
+            xs[i] = int(xs[i] * 1024/432)
+            ys[i] = int(ys[i] * 1024/432)
         mask = render(xs, ys)
 
         try:
             if (p == None):
                 p = np.zeros(mask.shape)
+                print(p.shape)
         except:
             p = p
         
