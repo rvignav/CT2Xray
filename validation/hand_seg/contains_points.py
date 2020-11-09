@@ -3,15 +3,24 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import mahotas
+import json
 
-all_x_1 = [[147,119,91,47,35,77,106,123,131,144], [187,159,129,102,103,132,159,181], [356,315,318,296,296,296,304,329,375,388,388,388,392,360,377,370]]
-all_y_1 = [[142,146,133,151,186,212,194,198,184,173], [75,58,68,88,102,111,109,106], [238,201,170,161,154,129,114,114,114,114,141,157,170,187,195,214]]
+all_x = []
+all_y = []
 
-all_x_2 = [[185,148,137,120,119,149], [42,42,87,142,142,139,130,116,115,93,51,51], [292,308,295,280,277,277,293]]
-all_y_2 = [[87,104,131,156,203,167], [196,237,249,249,230,213,208,195,158,147,147,165], [162,124,109,117,142,167,167]]
+with open('via_region_data.json') as f:
+    data = json.load(f)
 
-all_x = [all_x_1, all_x_2]
-all_y = [all_y_1, all_y_2]
+for img in data:
+    all_x_i = []
+    all_y_i = []
+    d = data[img]
+    regions = d['regions']
+    for r in regions:
+        all_x_i.append(r['shape_attributes']['all_points_x'])
+        all_y_i.append(r['shape_attributes']['all_points_y'])
+    all_x.append(all_x_i)
+    all_y.append(all_y_i)
 
 def render(xs, ys):
     X = int(300 * 1024/432)
@@ -37,7 +46,6 @@ for q in range(len(all_x)):
         try:
             if (p == None):
                 p = np.zeros(mask.shape)
-                print(p.shape)
         except:
             p = p
         
