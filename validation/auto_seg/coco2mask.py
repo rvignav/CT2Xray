@@ -2,6 +2,8 @@ import os
 import json
 import random
 import numpy as np
+import re
+import sys
 import requests
 from io import BytesIO
 import base64
@@ -10,6 +12,61 @@ from math import trunc
 from PIL import Image as PILImage
 from PIL import ImageDraw as PILImageDraw
 import matplotlib.pyplot as plt
+from ConcaveHull import ConcaveHull
+
+ret = []
+
+thresh = 200
+
+def floodfill(x, y):
+    if matrix[x][y] > thresh: 
+        matrix[x][y] = 0 
+        ret.append((x,y))
+        if x > 0:
+            floodfill(x-1,y)
+        if x < matrix.shape[0] - 1:
+            floodfill(x+1,y)
+        if y > 0:
+            floodfill(x,y-1)
+        if y < matrix.shape[1] - 1:
+            floodfill(x,y+1)
+
+def flood():
+    arr = []
+    for r in range(matrix.shape[0]):
+        for c in range(matrix.shape[1]):
+            if (matrix[r][c] > thresh):
+                ret.clear()
+                floodfill(r, c)
+                m = []
+                for i in ret:
+                    m.append(i)
+                arr.append(m)
+    return arr
+
+sys.setrecursionlimit(300000)
+data = {}
+
+def show(arr, index):
+    ans = [] 
+    a = arr[index]
+    x = []
+    y = []
+    for tup in a:
+      x.append(tup[0])
+      y.append(tup[1])
+    allPoints=np.column_stack((x,y))
+    ch = ConcaveHull()
+    ch.loadpoints(allPoints)
+    ch.calculatehull()
+    boundary_points = np.vstack(ch.boundary.exterior.coords.xy).T
+    xs = []
+    ys = []
+    for r in range(len(boundary_points)):
+        ans.append((boundary_points[r][0], boundary_points[r][1]))
+        xs.append(boundary_points[r][0])
+        ys.append(boundary_points[r][1])
+    return ans
 
 class CocoDataset():
     def __init__(self, annotation_path, image_dir):
@@ -132,26 +189,84 @@ class CocoDataset():
                 
         if show_crowds:
             mask_arr = np.zeros((image_height, image_width))
+            arr = []
             for seg_id, rect_list in rle_regions.items():
+                m = []
                 for rect_def in rect_list:
                     x, y = rect_def['x'], rect_def['y']
                     w, h = rect_def['width'], rect_def['height']
                     for r in range(x, x+w+1):
                         for c in range(y,y+h+1):
-                            mask_arr[c][r] = 255
-            plt.imshow(mask_arr, cmap='gray')
-            plt.gca().set_axis_off()
-            figure = plt.gcf()
-            figure.set_size_inches(mask_arr.shape[0], mask_arr.shape[1])
-            plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
-            plt.margins(0,0)
-            plt.gca().xaxis.set_major_locator(plt.NullLocator())
-            plt.gca().yaxis.set_major_locator(plt.NullLocator())
-            plt.savefig('masks/' + str(fname[:fname.rindex('.')]) + '.png', bbox_inches = 'tight', pad_inches = 0, dpi=1)
-            im1 = PILImage.open('masks/' + str(fname[:fname.rindex('.')]) + '.png')
-            im1 = im1.resize((image_width, image_height))
-            im1.save('masks/' + str(fname[:fname.rindex('.')]) + '.png')
-            plt.close()
+                            m.append((c,r))
+                arr.append(m)
+            
+            l = float(300)
+            # global matrix
+            # matrix = mask_arr.astype(np.uint8)
+            # l = float(l)
+            # arr = flood()
+        
+            size = int(l * 21.5895 + 5965.85)
+            name = fname + str(size)
+            
+            regions = []
+            
+            for idx in range(len(arr)):
+                t = arr[idx]
+                if (min(t)[0] == max(t)[0] or min(t, key = lambda q: q[1])[1] == max(t, key = lambda q: q[1])[1]):
+                    continue
+                a = show(arr, idx)
+                all_points_x = []
+                all_points_y = []
+                for tup in a:
+                    all_points_x.append(int(tup[0]))
+                    all_points_y.append(int(tup[1]))
+            
+                shape_attributes = {}
+                shape_attributes['name'] = 'polygon'
+                shape_attributes['all_points_x'] = all_points_y
+                shape_attributes['all_points_y'] = all_points_x
+
+                image_quality = {}
+                image_quality['good'] = True
+                image_quality['frontal'] = True
+                image_quality['good_illumination'] = True
+
+                region_attributes = {}
+                region_attributes['name'] = 'not_defined'
+                region_attributes['type'] = 'unknown'
+                region_attributes['image_quality'] = image_quality
+                
+                regions.append({
+                    'shape_attributes':shape_attributes,
+                    "region_attributes": region_attributes
+                })
+
+            file_attributes = {}
+            file_attributes['caption'] = ''
+            file_attributes['public_domain'] = 'no'
+            file_attributes['image_url'] = ''
+
+            data[name] = {}
+            data[name]['filename'] = fname
+            data[name]['size'] = size
+            data[name]['regions'] = regions
+            data[name]['file_attributes'] = file_attributes
+
+            #                 mask_arr[c][r] = 255
+            # plt.imshow(mask_arr, cmap='gray')
+            # plt.gca().set_axis_off()
+            # figure = plt.gcf()
+            # figure.set_size_inches(mask_arr.shape[0], mask_arr.shape[1])
+            # plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
+            # plt.margins(0,0)
+            # plt.gca().xaxis.set_major_locator(plt.NullLocator())
+            # plt.gca().yaxis.set_major_locator(plt.NullLocator())
+            # plt.savefig('masks/' + str(fname[:fname.rindex('.')]) + '.png', bbox_inches = 'tight', pad_inches = 0, dpi=1)
+            # im1 = PILImage.open('masks/' + str(fname[:fname.rindex('.')]) + '.png')
+            # im1 = im1.resize((image_width, image_height))
+            # im1.save('masks/' + str(fname[:fname.rindex('.')]) + '.png')
+            # plt.close()
 
     def process_info(self):
         self.info = self.coco['info']
@@ -205,8 +320,8 @@ if not os.path.exists('masks'):
 
 count = 50
 
-data = glob.glob('../images/*')
-for i in data:
+d = glob.glob('../images/*')
+for i in d:
     if count < 0:
         break
     count -= 1
@@ -219,3 +334,6 @@ for i in data:
     if idx == -1:
         continue
     coco_dataset.display_image(idx, fname, show_polys=False, show_bbox=False, show_crowds=True, use_url=False)
+
+with open('via_region_data.json', 'w') as outfile:
+    json.dump(data, outfile)
