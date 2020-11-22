@@ -87,10 +87,7 @@ class CocoDataset():
         self.process_images()
         self.process_segmentations()
     
-    def display_image(self, image_id, fname, show_polys=True, show_bbox=True, show_crowds=True, use_url=False):
-        if os.path.exists('masks/' + str(fname[:fname.rindex('.')]) + '.png'):
-            return
-
+    def display_image(self, image_id, fname, q, show_polys=True, show_bbox=True, show_crowds=True, use_url=False):
         # print('Image:')
         # print('======')
         # if image_id == 'random':
@@ -199,6 +196,9 @@ class CocoDataset():
                         for c in range(y,y+h+1):
                             m.append((c,r))
                 arr.append(m)
+            
+            f = open('valfiles/val' + str(q) + '.txt', 'w')
+            f.write(str(arr))
             
             l = float(300)
             # global matrix
@@ -320,6 +320,8 @@ if not os.path.exists('masks'):
 
 count = 50
 
+q = 0
+
 d = glob.glob('../images/*')
 for i in d:
     if count < 0:
@@ -333,7 +335,8 @@ for i in d:
             break
     if idx == -1:
         continue
-    coco_dataset.display_image(idx, fname, show_polys=False, show_bbox=False, show_crowds=True, use_url=False)
+    coco_dataset.display_image(idx, fname, q, show_polys=False, show_bbox=False, show_crowds=True, use_url=False)
+    q += 1
 
 with open('via_region_data.json', 'w') as outfile:
     json.dump(data, outfile)
