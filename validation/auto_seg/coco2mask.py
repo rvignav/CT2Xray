@@ -322,18 +322,19 @@ count = 50
 
 q = 0
 
-d = glob.glob('../images/*')
+d = glob.glob('masks/*')
 for i in d:
     if count < 0:
         break
     count -= 1
-    fname = i[i.rindex('images/') + len('images/'):]
+    fname = i[i.rindex('masks/') + len('masks/'):]
     idx = -1
     for img in coco_dataset.images:
-        if fname == coco_dataset.images[img]['file_name']:
+        if fname[:fname.rindex('.png')] in coco_dataset.images[img]['file_name']:
             idx = img
             break
     if idx == -1:
+        print(fname[:fname.rindex('.png')])
         continue
     coco_dataset.display_image(idx, fname, q, show_polys=False, show_bbox=False, show_crowds=True, use_url=False)
     q += 1
