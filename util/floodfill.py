@@ -130,9 +130,7 @@ def dice(imidx):
     arr = flood()
     return arr
 
-fnames = ['val0.txt', 'val1.txt']
-vals = [31, 32]
-for i in range(2):
-    f = open(fnames[i], 'w')
-    arr = dice(vals[i])
+for i in range(42):
+    f = open('val' + str(i) + '.txt', 'w')
+    arr = dice(i)
     f.write(str(arr))
