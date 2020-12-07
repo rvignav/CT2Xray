@@ -91,7 +91,7 @@ def create_image(dirname, dirname2, label, filename):
 
     final_img.save(filename)
 
-for i in range(43,241):
+for i in range(42,241):
   scan_name = '/Users/vignavramesh/Downloads/scans/Volume' + str(i)
   mask_name = '/Users/vignavramesh/Downloads/masks/Volume' + str(i)
   create_image(scan_name, mask_name, "Creating X-ray " + str(i) + ":", '/Users/vignavramesh/Downloads/xrays/xray' + str(i) + '.jpg')

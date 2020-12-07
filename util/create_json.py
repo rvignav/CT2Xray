@@ -172,7 +172,7 @@ mask_list = glob.glob('/Users/vignavramesh/Downloads/masks/*')
 scan_list = sort_list(scan_list)
 mask_list = sort_list(mask_list)
 
-for i in range(43,241):
+for i in range(42,241):
     mask_name = mask_list[i-43]
     scan_name = scan_list[i-43]
     ret = create_image(mask_name, scan_name, 'Creating mask ' + str(i) + ':')
