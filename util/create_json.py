@@ -173,8 +173,8 @@ scan_list = sort_list(scan_list)
 mask_list = sort_list(mask_list)
 
 for i in range(42,241):
-    mask_name = mask_list[i-43]
-    scan_name = scan_list[i-43]
+    mask_name = mask_list[i-42]
+    scan_name = scan_list[i-42]
     ret = create_image(mask_name, scan_name, 'Creating mask ' + str(i) + ':')
     img = ret[0]
     l = ret[1]
