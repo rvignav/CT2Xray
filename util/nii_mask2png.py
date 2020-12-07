@@ -18,8 +18,8 @@ scans = sort_list(scans)
 
 i = 0
 for f in scans:
-  if '_ct.nii' in f:
-    name = './scans/Volume' + str(i+42) + '/'
+  if '_seg.nii' in f:
+    name = './masks/Volume' + str(i+42) + '/'
     tf.io.gfile.makedirs(name)
     scan = f
     print(scan)
