@@ -1,1 +1,1 @@
-Download the weights [here](https://drive.google.com/drive/folders/1f70uF4RVfbGPFZSioGMj_b9W-Ovj94aI?usp=sharing). Place the H5 file in a folder named `lesion` in the same directory as the `images` folder.
+Download the weights [here](https://drive.google.com/drive/folders/1f70uF4RVfbGPFZSioGMj_b9W-Ovj94aI?usp=sharing). Rename the desired H5 file to `mask_rcnn_lesion_0030.h5` and place it in a folder named `lesion` in the same directory as the `images` folder.
