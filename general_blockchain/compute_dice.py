@@ -1,5 +1,8 @@
 from PIL import Image
 import glob
+import numpy as np
+import scipy.stats
+import matplotlib.pyplot as plt 
 
 d = glob.glob('/Users/vignavramesh/Documents/CT2Xray/tests/ground_truth_masks/*')
 d2 = glob.glob('/Users/vignavramesh/Documents/CT2Xray/tests/xrays_only_masks/*')
@@ -41,6 +44,15 @@ for i in range(len(d)):
     dices.append((2*n1)/(u+u))
     dices2.append((2*n2)/(u+u))
 
-print("DICE (X-rays Only): " + str(sum(dices)/len(dices)))
-print("DICE (Mixed): " + str(sum(dices2)/len(dices2)))
-    
+# print("DICE (X-rays Only): " + str(sum(dices)/len(dices)))
+# print("DICE (Mixed): " + str(sum(dices2)/len(dices2)))
+
+def mean_confidence_interval(data, confidence=0.95):
+    a = 1.0 * np.array(data)
+    n = len(a)
+    m, se = np.mean(a), scipy.stats.sem(a)
+    h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
+    return str(round(m,4)) + " +/- " + str(round(h,4)) + " = " + str((round(m-h,4),round(m+h,4)))
+
+print("X-rays Only: " + mean_confidence_interval(dices))
+print("Mixed: " + mean_confidence_interval(dices2))
