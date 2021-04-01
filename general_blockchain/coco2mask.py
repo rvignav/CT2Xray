@@ -13,10 +13,14 @@ from PIL import Image as PILImage
 from PIL import ImageDraw as PILImageDraw
 import matplotlib.pyplot as plt
 from ConcaveHull import ConcaveHull
+import os
 
 ret = []
 
 thresh = 200
+
+if not os.path.exists('masks'):
+    os.mkdir('masks')
 
 def floodfill(x, y):
     if matrix[x][y] > thresh: 
@@ -194,79 +198,20 @@ class CocoDataset():
                     w, h = rect_def['width'], rect_def['height']
                     for r in range(x, x+w+1):
                         for c in range(y,y+h+1):
-                            m.append((c,r))
-                arr.append(m)
-            
-            # f = open('valfiles/val' + str(q) + '.txt', 'w')
-            # f.write(str(arr))
-            
-            l = float(300)
-            # global matrix
-            # matrix = mask_arr.astype(np.uint8)
-            # l = float(l)
-            # arr = flood()
-        
-            size = int(l * 21.5895 + 5965.85)
-            name = fname + str(size)
-            
-            regions = []
-            
-            for idx in range(len(arr)):
-                t = arr[idx]
-                if (min(t)[0] == max(t)[0] or min(t, key = lambda q: q[1])[1] == max(t, key = lambda q: q[1])[1]):
-                    continue
-                a = show(arr, idx)
-                all_points_x = []
-                all_points_y = []
-                for tup in a:
-                    all_points_x.append(int(tup[0]))
-                    all_points_y.append(int(tup[1]))
-            
-                shape_attributes = {}
-                shape_attributes['name'] = 'polygon'
-                shape_attributes['all_points_x'] = all_points_y
-                shape_attributes['all_points_y'] = all_points_x
-
-                image_quality = {}
-                image_quality['good'] = True
-                image_quality['frontal'] = True
-                image_quality['good_illumination'] = True
-
-                region_attributes = {}
-                region_attributes['name'] = 'not_defined'
-                region_attributes['type'] = 'unknown'
-                region_attributes['image_quality'] = image_quality
-                
-                regions.append({
-                    'shape_attributes':shape_attributes,
-                    "region_attributes": region_attributes
-                })
-
-            file_attributes = {}
-            file_attributes['caption'] = ''
-            file_attributes['public_domain'] = 'no'
-            file_attributes['image_url'] = ''
-
-            data[name] = {}
-            data[name]['filename'] = fname
-            data[name]['size'] = size
-            data[name]['regions'] = regions
-            data[name]['file_attributes'] = file_attributes
-
-            #                 mask_arr[c][r] = 255
-            # plt.imshow(mask_arr, cmap='gray')
-            # plt.gca().set_axis_off()
-            # figure = plt.gcf()
-            # figure.set_size_inches(mask_arr.shape[0], mask_arr.shape[1])
-            # plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
-            # plt.margins(0,0)
-            # plt.gca().xaxis.set_major_locator(plt.NullLocator())
-            # plt.gca().yaxis.set_major_locator(plt.NullLocator())
-            # plt.savefig('masks/' + str(fname[:fname.rindex('.')]) + '.png', bbox_inches = 'tight', pad_inches = 0, dpi=1)
-            # im1 = PILImage.open('masks/' + str(fname[:fname.rindex('.')]) + '.png')
-            # im1 = im1.resize((image_width, image_height))
-            # im1.save('masks/' + str(fname[:fname.rindex('.')]) + '.png')
-            # plt.close()
+                            mask_arr[c][r] = 255
+            plt.imshow(mask_arr, cmap='gray')
+            plt.gca().set_axis_off()
+            figure = plt.gcf()
+            figure.set_size_inches(mask_arr.shape[0], mask_arr.shape[1])
+            plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
+            plt.margins(0,0)
+            plt.gca().xaxis.set_major_locator(plt.NullLocator())
+            plt.gca().yaxis.set_major_locator(plt.NullLocator())
+            plt.savefig('masks/' + str(fname[:fname.rindex('.')]) + '.png', bbox_inches = 'tight', pad_inches = 0, dpi=1)
+            im1 = PILImage.open('masks/' + str(fname[:fname.rindex('.')]) + '.png')
+            im1 = im1.resize((image_width, image_height))
+            im1.save('masks/' + str(fname[:fname.rindex('.')]) + '.png')
+            plt.close()
 
     def process_info(self):
         self.info = self.coco['info']
@@ -337,7 +282,10 @@ for i in d:
     if idx == -1:
         print(fname)
         continue
-    coco_dataset.display_image(idx, fname, q, show_polys=False, show_bbox=False, show_crowds=True, use_url=False)
+    try:
+        coco_dataset.display_image(idx, fname, q, show_polys=False, show_bbox=False, show_crowds=True, use_url=False)
+    except:
+        print(fname)
     q += 1
 
 with open('via_region_data.json', 'w') as outfile:
