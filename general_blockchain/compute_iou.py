@@ -15,10 +15,21 @@ d3 = sorted(d3)
 ious = []
 ious2 = []
 
-for i in range(len(d)):
-    im1 = Image.open(d[i]).convert('L')
-    im2 = Image.open(d2[i]).convert('L')
+def replace_last(source_string, replace_what, replace_with):
+    head, _sep, tail = source_string.rpartition(replace_what)
+    return head + replace_with + tail
+
+for i in range(len(d3)):
     im3 = Image.open(d3[i]).convert('L')
+    im1n = '/Users/vignavramesh/Documents/CT2Xray/tests/ground_truth_masks/' + str(d3[i][d3[i].rindex("mixed_masks/")+len("mixed_masks/"):])
+    im2n = '/Users/vignavramesh/Documents/CT2Xray/tests/xrays_only_masks/' + str(d3[i][d3[i].rindex("mixed_masks/")+ len("mixed_masks/"):])
+    im1n = replace_last(im1n, 'jpeg', 'png')
+    try:
+        im1 = Image.open(im1n).convert('L').resize((1024,1024))
+        im2 = Image.open(im2n).convert('L')
+    except:
+        print(d3[i][d3[i].rindex("mixed_masks/")+ len("mixed_masks/"):])
+
     HEIGHT, WIDTH = im1.size
     data = list(im1.getdata())
     pixels = [data[offset:offset+WIDTH] for offset in range(0, WIDTH*HEIGHT, WIDTH)]
@@ -53,4 +64,3 @@ def mean_confidence_interval(data, confidence=0.95):
 
 print("X-rays Only: " + mean_confidence_interval(ious))
 print("Mixed: " + mean_confidence_interval(ious2))
-    
