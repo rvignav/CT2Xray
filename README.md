@@ -31,7 +31,8 @@ For further details, see the below description of the structure of this folder:
 ├── tests
 │   ├── ground_truth_masks: Ground truth masks for test images.
 │   ├── mixed_masks: Masks predicted by Segment_Mixed.ipynb.
-│   └── xrays_only_masks: Masks predicted by Segment_Xrays_Only.ipynb.
+│   ├── xrays_only_masks: Masks predicted by Segment_Xrays_Only.ipynb.
+│   └── baseline: Images, notebooks, and other resources for training the baseline model (Tang et al.'s U-Net segmentation model) on Datasets 1 and 2.
 ├── util: Various tools for converting and manipulating images, e.g. DICOM to PNG conversion, ConcaveHull implementation, etc.
 └── xrays_only
     ├── train: X-rays only training dataset.
