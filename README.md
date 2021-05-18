@@ -1,5 +1,5 @@
 ## COVID-19 Lung Lesion Segmentation Using a Sparsely Supervised Mask R-CNN on Chest X-rays Automatically Computed from Volumetric CTs
-<a href="https://orcid.org/0000-0002-6521-7898"><img height="30" src="https://github.com/rvignav/rvignav/blob/master/docs/orcid.png"></a>&nbsp;&nbsp;Vignav Ramesh, <a href="https://orcid.org/0000-0002-4490-0444"><img height="30" src="https://github.com/rvignav/rvignav/blob/master/docs/orcid.png"></a>&nbsp;&nbsp;Blaine Rister, <a href="https://orcid.org/0000-0001-5057-4369"><img height="30" src="https://github.com/rvignav/rvignav/blob/master/docs/orcid.png"></a>&nbsp;&nbsp;Daniel L. Rubin
+<a href="https://orcid.org/0000-0002-6521-7898"><img height="30" src="https://github.com/rvignav/CT2Xray/blob/master/docs/orcid.png"></a>&nbsp;&nbsp;Vignav Ramesh, <a href="https://orcid.org/0000-0002-4490-0444"><img height="30" src="https://github.com/rvignav/CT2Xray/blob/master/docs/orcid.png"></a>&nbsp;&nbsp;Blaine Rister, <a href="https://orcid.org/0000-0001-5057-4369"><img height="30" src="https://github.com/rvignav/CT2Xray/blob/master/docs/orcid.png"></a>&nbsp;&nbsp;Daniel L. Rubin
 
 <!-- [arXiv]() / [Full Paper (PDF)]() / [Google Scholar]() / [Papers With Code]() / [Mask R-CNN Code]() -->
 
