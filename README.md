@@ -3,7 +3,7 @@
 
 <!-- [arXiv]() / [Full Paper (PDF)]() / [Google Scholar]() / [Papers With Code]() / [Mask R-CNN Code]() -->
 
-![GIF](https://github.com/rvignav/CT2Xray/blob/master/docs/gif.gif)
+<!-- ![GIF](https://github.com/rvignav/CT2Xray/blob/master/docs/gif.gif) -->
 
 ### Pre-trained models
 
