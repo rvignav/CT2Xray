@@ -1,7 +1,7 @@
 ## COVID-19 Lung Lesion Segmentation Using a Sparsely Supervised Mask R-CNN on Chest X-rays Automatically Computed from Volumetric CTs
 <a href="https://orcid.org/0000-0002-6521-7898"><img height="15" src="https://github.com/rvignav/CT2Xray/blob/master/docs/orcid.png"></a>&nbsp;Vignav Ramesh, <a href="https://orcid.org/0000-0002-4490-0444"><img height="15" src="https://github.com/rvignav/CT2Xray/blob/master/docs/orcid.png"></a>&nbsp;Blaine Rister, <a href="https://orcid.org/0000-0001-5057-4369"><img height="15" src="https://github.com/rvignav/CT2Xray/blob/master/docs/orcid.png"></a>&nbsp;Daniel L. Rubin
 
-<!-- [arXiv]() / [Full Paper (PDF)]() / [Google Scholar]() / [Papers With Code]() / [Mask R-CNN Code]() -->
+[arXiv](https://arxiv.org/abs/2105.08147) / [Full Paper (PDF)](https://arxiv.org/pdf/2105.08147.pdf) / [Papers With Code](https://paperswithcode.com/paper/covid-19-lung-lesion-segmentation-using-a) / [Mask R-CNN Code](https://github.com/rvignav/Mask_RCNN)
 
 ![Header](https://github.com/rvignav/CT2Xray/blob/master/docs/header-2.png)
 
@@ -20,7 +20,7 @@
 
 Our models were trained on a single GPU (Tesla P4 GPU provided by Google Colab, 16 GB memory). The code is implemented using TensorFlow v1, but is compatible with TensorFlow v2 and can be ported to the [most recent version of TensorFlow](https://www.tensorflow.org/versions) if desired. To install all required dependencies, run the following:
 
-    pip install Pillow numpy glob2 regex os-sys argparse matplotlib
+    pip install -r requirements.txt
 
 Afterwards, set up the Mask R-CNN model:
 ```
@@ -44,7 +44,7 @@ sed -i -- 's/Balloon/Lesion/g' lesion.py
 
 ### Pretraining
 
-The following command can be used to pretrain a Mask R-CNN on either Dataset 1 or 2 (which reflects the default hyperparameters in our paper):
+The following commands can be used to pretrain the Mask R-CNN model:
 ```
 # Train a new model starting from pre-trained ImageNet weights
 python lesion.py train --dataset='/path/to/data/' --weights=imagenet
@@ -74,12 +74,14 @@ The CT to X-ray re-projection algorithm can be executed in isolation as follows:
 
     python ct2xray.py <path/to/CT/volume> <path/to/mask/volume>
 
-<!-- ### Cite
+### Cite
 ```
-@article{chen2020big,
-  title={Big Self-Supervised Models are Strong Semi-Supervised Learners},
-  author={Chen, Ting and Kornblith, Simon and Swersky, Kevin and Norouzi, Mohammad and Hinton, Geoffrey},
-  journal={arXiv preprint arXiv:2006.10029},
-  year={2020}
+@misc{ramesh2021covid19,
+      title={COVID-19 Lung Lesion Segmentation Using a Sparsely Supervised Mask R-CNN on Chest X-rays Automatically Computed from Volumetric CTs}, 
+      author={Vignav Ramesh and Blaine Rister and Daniel L. Rubin},
+      year={2021},
+      eprint={2105.08147},
+      archivePrefix={arXiv},
+      primaryClass={eess.IV}
 }
-``` -->
+```
