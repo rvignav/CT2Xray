@@ -1,0 +1,11 @@
+tensorflow==1.15.2
+keras==2.1.0
+Pillow
+scikit-image
+opencv-python
+numpy
+glob2
+regex
+os-sys
+argparse
+matplotlib
