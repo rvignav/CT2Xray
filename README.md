@@ -42,9 +42,9 @@ sed -i -- 's/Balloon/Lesion/g' lesion.py
 | Training Dataset 2 (Mixed) | [Download](https://github.com/rvignav/CT2Xray/tree/master/mixed) |
 | Test Dataset | [Download](https://github.com/rvignav/CT2Xray/tree/master/mixed/val) |
 
-### Pretraining
+### Training
 
-The following commands can be used to pretrain the Mask R-CNN model:
+The following commands can be used to train the Mask R-CNN model:
 ```
 # Train a new model starting from pre-trained ImageNet weights
 python lesion.py train --dataset='/path/to/data/' --weights=imagenet
