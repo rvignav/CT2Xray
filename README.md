@@ -39,7 +39,7 @@ sed -i -- 's/Balloon/Lesion/g' lesion.py
 | Dataset | URL |
 | --- | --- |
 | Training Dataset 1 (X-rays Only) | [Download](https://github.com/rvignav/CT2Xray/tree/master/xrays_only) |
-| Training Dataset 2 (Mixed) | [Download](https://github.com/rvignav/CT2Xray/tree/master/mixed) |
+| Training Dataset 2 (Mixed) | [Download](https://github.com/rvignav/CheXMix) |
 | Test Dataset | [Download](https://github.com/rvignav/CT2Xray/tree/master/mixed/val) |
 
 ### Training
