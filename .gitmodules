@@ -1,3 +1,6 @@
 [submodule "Mask_RCNN"]
 	path = Mask_RCNN
 	url = https://github.com/rvignav/Mask_RCNN
+[submodule "CheXMix"]
+	path = CheXMix
+	url = https://github.com/rvignav/CheXMix
